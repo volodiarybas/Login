@@ -3,7 +3,6 @@ const  router = express.Router();
 const bodyParser = require("body-parser");
 const check = require("../handlers/inputsCheck")
 const db = require("./database/database");
-const bcrypt = require('bcryptjs');
 const session = require('express-session');
 const User = require('../object/user')
 
@@ -24,10 +23,9 @@ router.get('/registration', (req,res)=>{
 })
 });
 
-router.post('/registration', urlencodedParser,  (req,res)=>{
+router.post('/registration', urlencodedParser,(req,res)=>{
      if (check.registrationDataCheck(req.body,res)) {
-        let password = bcrypt.hashSync(req.body.passwordCr, 8);
-        let user = new User(req.body.mail,password,req.body.username)
+        let user = new User(req.body.mail,req.body.passwordCr,req.body.username)
         user.dbAddUser(user);
         res.redirect("/login");
     }
@@ -36,7 +34,8 @@ router.post('/registration', urlencodedParser,  (req,res)=>{
 
 router.post('/login', urlencodedParser, (req,res) => {
     check.loginDataCheck(req.body,res); 
-    let user = new User(req.body.mail,password)
+    let user = new User(req.body.mail,req.body.password)
+    user.auth();
 })
 
  module.exports = router;
