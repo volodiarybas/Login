@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const ejs = require('ejs');
+let Promise = require('promise');
 
 const db = mysql.createConnection ({
     host: 'localhost',
@@ -29,11 +30,20 @@ db.makeQuery = (query) => {
 });
 }
 
-db.selectUser =  (mail) => {
-     return db.query(`SELECT * FROM tdlist.user WHERE email = '${mail}'  `, (err,result,fields) =>{
-        if (err ) throw err;
-        return result[0];
-    })      
+db.selectUser = async (mail) => {
+    let myResult = new Promise((resolve,reject) =>{
+        db.query(`SELECT * FROM tdlist.user WHERE email = '${mail}'  `, (err,result,fields) =>{
+          resolve(result)            
+         })
+    })
+   return myResult.then((result) =>{
+        return result[0].passwordHash;
+    })
+
+            
+       
+      
 }
 
 module.exports = db;
+

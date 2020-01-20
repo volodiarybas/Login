@@ -11,9 +11,9 @@ class User  {
         dbAddUser() {
             db.createUser(this.name,this.mail,this.password);
         }
-          auth() {
-          
-            
+        async auth() {        
+         let dbResult = await db.selectUser(this.mail)
+         .then((dbResult) => console.log(dbResult))
         }
     }    
     
