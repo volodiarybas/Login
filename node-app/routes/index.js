@@ -3,16 +3,17 @@ const  router = express.Router();
 const bodyParser = require("body-parser");
 const check = require("../handlers/inputsCheck")
 const db = require("./database/database");
-const session = require('express-session');
-const User = require('../object/user')
+const User = require('../object/user');
+const bcrypt = require('bcryptjs');
+let session = require('express-session');
+let Promise = require('promise');
 
-router.use
 
 
 let  urlencodedParser = bodyParser.urlencoded({extended : true});
  
 router.get('/', (req,res)=>{
-     res.render('main',  {title:'Main Page'})
+     res.render('main',  {title:`${req.session.username}`})
  });
 router.get('/login', (req,res)=>{
     res.render('loginPage',  {title:'Log-in Page'})
@@ -25,17 +26,19 @@ router.get('/registration', (req,res)=>{
 
 router.post('/registration', urlencodedParser,(req,res)=>{
      if (check.registrationDataCheck(req.body,res)) {
-        let user = new User(req.body.mail,req.body.passwordCr,req.body.username)
+        let user = new User(req.body.mail,bcrypt.hashSync(req.body.passwordCr, 8),req.body.username)
         user.dbAddUser(user);
         res.redirect("/login");
     }
     else return res.end();
 });
 
-router.post('/login', urlencodedParser, (req,res) => {
-    check.loginDataCheck(req.body,res); 
-    let user = new User(req.body.mail,req.body.password)
-    user.auth();
+router.post('/login', urlencodedParser, async (req,res) => {
+    if (check.loginDataCheck(req.body,res)) {
+        let user = new User(req.body.mail,req.body.password)
+          await user.auth(req,res);      
+    }
+    else return res.end();
 })
 
- module.exports = router;
+ module.exports = router; 

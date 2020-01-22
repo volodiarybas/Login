@@ -6,6 +6,7 @@ const session = require('express-session');
 /*-------------------------------------*/
 app.set('view engine','ejs');
 app.use(express.static(__dirname + '/public'));
+app.use(session({secret: 'secret',saveUninitialized: true,resave: false}));
 
 
 /*-------------------------------------*/

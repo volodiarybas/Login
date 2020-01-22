@@ -37,7 +37,7 @@ db.selectUser = async (mail) => {
          })
     })
    return myResult.then((result) =>{
-        return result[0].passwordHash;
+        return result[0];
     })
 
             

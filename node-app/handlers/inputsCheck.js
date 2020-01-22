@@ -10,16 +10,16 @@ module.exports.registrationDataCheck = (body,res) => {
     } 
     else if (body.passwordCr !== body.passwordCf) {
         res.render('signInPage', {title:'Sign-in Page',
-        Error:"Register error: Passwords are different"
-    });
+        Error:"Register error: Passwords are different"});
         return false;
     } else   return true;
 }
  module.exports.loginDataCheck = (body,res) =>{
      if (!body.mail || !body.password) {
          res.render('loginPage', {Error:"Login error: Not all fields are filled.",
-         title:'Log-in Page'} 
-         )};
-         return res.end();
+         title:'Log-in Page'})
+         return false;
+        }
+         return true;
 
  }
