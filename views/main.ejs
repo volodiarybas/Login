@@ -1,7 +1,14 @@
 <%- include('./parts/header') %>
 <div class="row bg-light">
-    <div class="container bg-secondary">
-        <h2> Here will be a tasks</h2>
+    <div class="container row-col-6">
+        <%if (authorized) { %>
+            <%- include('./parts/userForm') %>
+            <%- include('./parts/carousel') %>
+            <% } else {  %>
+                <div class="attention bg-secondary rounded">
+                    <h1 class="H1 font-italic"> You are not authorized </h1> 
+                </div>
+            <% } %>  
     </div>
 </div>
 <%- include('./parts/footer') %>

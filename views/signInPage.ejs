@@ -1,9 +1,9 @@
 <%- include('./parts/header') %>
 <div class="row bg-light">
-    <div class="container bg-secondary shadow-lg p-3 mb-5 rounded">
-        <form method="post" action="/registration">
+    <div class="container bg-muted shadow-lg p-3 mb-5 rounded">
+        <form class="authForm  shadow p-2 mb-2 rounded" method="post" action="/registration">
               <p> <%- Error %> </p> 
-          <div class="form-group ">
+          <div class="form-group">
             <label for="usernameInput">User Name</label>
             <input name="username"  class="form-control" id="usernameInput"  placeholder="Enter username">
           </div>

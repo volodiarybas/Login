@@ -7,14 +7,22 @@ const User = require('../object/user');
 const bcrypt = require('bcryptjs');
 let session = require('express-session');
 let Promise = require('promise');
+let mainPage = require('../handlers/mainPage');
 
 
 
 let  urlencodedParser = bodyParser.urlencoded({extended : true});
  
 router.get('/', (req,res)=>{
-     res.render('main',  {title:`${req.session.username}`})
+     mainPage.render(req,res);
  });
+
+router.post('/', urlencodedParser,(req,res)=>{
+    mainPage.addTask(req,res);
+});
+
+
+ 
 router.get('/login', (req,res)=>{
     res.render('loginPage',  {title:'Log-in Page'})
 });
