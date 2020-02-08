@@ -13,8 +13,8 @@ let mainPage = require('../handlers/mainPage');
 
 let  urlencodedParser = bodyParser.urlencoded({extended : true});
  
-router.get('/', (req,res)=>{
-     mainPage.render(req,res);
+router.get('/', async (req,res) => {
+    await mainPage.render(req,res);
  });
 
 router.post('/', urlencodedParser,(req,res)=>{
@@ -24,10 +24,10 @@ router.post('/', urlencodedParser,(req,res)=>{
 
  
 router.get('/login', (req,res)=>{
-    res.render('loginPage',  {title:'Log-in Page'})
+    res.render('loginPage',  {pageName:'Log-in Page'})
 });
 router.get('/registration', (req,res)=>{
-    res.render('signInPage',  {title:'Sign-in Page',
+    res.render('signInPage',  {pageName:'Sign-in Page',
     Error:''
 })
 });
@@ -47,6 +47,11 @@ router.post('/login', urlencodedParser, async (req,res) => {
           await user.auth(req,res);      
     }
     else return res.end();
+})
+
+router.get('/:user/:task' , (req,res) =>{
+    db.makeQuery(`DELETE FROM ${req.params.user.toLowerCase()}
+    WHERE task = "${req.params.task}"`)
 })
 
  module.exports = router; 
