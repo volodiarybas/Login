@@ -5,8 +5,6 @@ const check = require("../handlers/inputsCheck")
 const db = require("./database/database");
 const User = require('../object/user');
 const bcrypt = require('bcryptjs');
-let session = require('express-session');
-let Promise = require('promise');
 let mainPage = require('../handlers/mainPage');
 
 
@@ -35,8 +33,8 @@ router.get('/registration', (req,res)=>{
 router.post('/registration', urlencodedParser,(req,res)=>{
      if (check.registrationDataCheck(req.body,res)) {
         let user = new User(req.body.mail,bcrypt.hashSync(req.body.passwordCr, 8),req.body.username)
-        user.dbAddUser(user);
-        res.redirect("/login");
+            user.dbAddUser(user);
+            res.redirect("/login");
     }
     else return res.end();
 });
@@ -50,8 +48,8 @@ router.post('/login', urlencodedParser, async (req,res) => {
 })
 
 router.get('/:user/:task' , (req,res) =>{
-    db.makeQuery(`DELETE FROM ${req.params.user.toLowerCase()}
-    WHERE task = "${req.params.task}"`)
+    db.makeQuery(`DELETE FROM ${req.params.user.toLowerCase()} WHERE task = "${req.params.task}"`)
+    res.redirect('/');
 })
 
  module.exports = router; 

@@ -14,5 +14,5 @@ exports.render = async (req,res) => {
 
 exports.addTask = (req,res) => {
     db.makeQuery(`INSERT INTO tdlist.${req.session.username} (task) values ('${req.body.task}')`)
-    res.end();
+    res.redirect('/');
 }

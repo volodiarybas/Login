@@ -11,7 +11,6 @@ app.use(session({secret: 'secret',saveUninitialized: true,resave: false}));
 
 /*-------------------------------------*/
 app.use('/', router)
-app.use('/registration', router);
 
 
 
